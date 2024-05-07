@@ -1,0 +1,85 @@
+// schema.prisma
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id        String     @id @default(uuid())
+    firstName String
+    lastName  String?
+    phone     String?
+    address   String?
+    email     String     @unique
+    password  String
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    products  Product[]
+    rentals   Rental[]
+    purchases Purchase[]
+}
+
+model Category {
+    id        String    @id @default(uuid())
+    name      String    @unique
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    products  Product[]
+}
+
+model Product {
+    id          String      @id @default(uuid())
+    title       String
+    description String
+    price       Float
+    rent        Float
+    rate        RateType
+    userId      String
+    user        User        @relation(fields: [userId], references: [id])
+    categories  Category[]
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @updatedAt
+    rentals     Rental[]
+    purchases   Purchase[]
+    status      RentStatus?
+}
+
+model Rental {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    productId String
+    product   Product  @relation(fields: [productId], references: [id])
+    startDate DateTime
+    endDate   DateTime
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Purchase {
+    id        String   @id @default(uuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    productId String
+    product   Product  @relation(fields: [productId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum RentStatus {
+    RENTED
+    SOLD
+}
+
+enum RateType {
+    YEAR
+    WEEK
+    MONTH
+    DAY
+}
