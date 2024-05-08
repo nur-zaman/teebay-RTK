@@ -17,8 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
-import { signIn } from "@/utils/auth";
+import { useLoginMutation } from "@/apiSlice"; // Import RTK Query hook
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -31,21 +30,20 @@ export function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { mutate: signInMutation, error: mutationError } = useMutation({
-    mutationFn: ({ email, password }: ValidationSchema) =>
-      signIn(email, password),
-    onSuccess: (userId) => {
-      localStorage.setItem("userId", userId);
-      router.push("/my-products");
-    },
-    onError: (error) => {
-      setError(error.message);
-    },
-  });
+  // Use RTK Query login mutation
+  const [login, { isLoading }] = useLoginMutation();
 
-  const onSubmitHandler = (values: ValidationSchema) => {
-    signInMutation(values);
+  const onSubmitHandler = async (values: ValidationSchema) => {
+    try {
+      const response = await login(values).unwrap(); // Call the mutation and unwrap the result
+      // Handle successful login (e.g., store user data, redirect)
+
+      localStorage.setItem("userId", response.id); // Assuming the response contains userId
+      router.push("/my-products");
+    } catch (err) {
+      // Handle login error
+      setError(err.message);
+    }
   };
 
   const form = useForm<ValidationSchema>({

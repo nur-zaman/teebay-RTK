@@ -18,7 +18,7 @@ import { Button } from "./ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter } from "next/navigation";
 // import { updateProduct } from "@/utils/products";
-import { useUpdateProductMutation } from "@/apiSlice";
+import { useUpdateProductMutation, useGetProductsQuery } from "@/apiSlice";
 
 interface EditProductProps {
   productId: string | null;
@@ -52,17 +52,14 @@ export default function EditProduct({ productId, status }: EditProductProps) {
     redirect("/");
     throw new Error("User ID invalid");
   }
-  const [updateProduct] = useUpdateProductMutation();
+  // const [updateProduct] = useUpdateProductMutation();
   const router = useRouter();
-  const queryClient = useQueryClient();
-  const products: Product[] = queryClient.getQueryData([
-    "products",
+  const { data: products } = useGetProductsQuery({
     userId,
     status,
-    undefined,
-    undefined,
-  ]) as Product[];
-
+    exceptUserId: undefined,
+    exceptStatus: undefined,
+  });
   const product: Product | undefined = products?.find(
     (p: Product) => p.id === productId
   );
@@ -106,6 +103,9 @@ export default function EditProduct({ productId, status }: EditProductProps) {
     },
   });
 
+  // RTK Query mutation for updating product
+  const [updateProduct, { isLoading, error }] = useUpdateProductMutation();
+
   const onSubmitHandler = async (values: ValidationSchema) => {
     const formattedProduct: Product = {
       id: product.id,
@@ -115,16 +115,18 @@ export default function EditProduct({ productId, status }: EditProductProps) {
       price: values.price,
       rent: values.rent,
       rate: values.rate.toUpperCase() as Product["rate"],
-      categories: values.categories.map((cat) => ({ name: cat.label })),
+      // categories: values.categories.map((cat) => ({ name: cat.label })),
+      categories: values.categories.map((cat) => cat.label),
     };
+
     try {
-      const res = await updateProduct(formattedProduct);
-      // await queryClient.invalidateQueries({
-      //   queryKey: ["products", product.userId, status],
-      // });
-      if (!res.) router.push("/my-products");
+      await updateProduct({ id: formattedProduct.id, ...formattedProduct }); // Pass id and patch data
+      if (!error) {
+        router.push("/my-products");
+      }
     } catch (error) {
-      console.error("Error creating product:", error);
+      console.error("Error updating product:", error);
+      // Handle error state if needed
     }
   };
 

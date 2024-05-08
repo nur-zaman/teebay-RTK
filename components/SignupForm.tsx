@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
+import { signup } from "@/utils/auth";
 
 const signupSchema = z
   .object({
@@ -47,13 +48,7 @@ export function SignupForm() {
 
   const onSubmitHandler = async (values: ValidationSchema) => {
     try {
-      const response = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      const response = await signup(values);
 
       if (response.ok) {
         console.log("Signup successful!");

@@ -16,5 +16,5 @@ export interface Product {
   userId: string;
   createdAt?: string;
   updatedAt?: string;
-  categories: Category[];
+  categories: Category[] | string[];
 }

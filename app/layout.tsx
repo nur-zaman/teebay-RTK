@@ -1,14 +1,17 @@
+"use client";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import { Provider } from "react-redux";
+import { store } from "@/store";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "TEEBAY",
-  description: "RENT/BUY PRODUCT AT EASE",
-};
+// export const metadata: Metadata = {
+//   title: "TEEBAY",
+//   description: "RENT/BUY PRODUCT AT EASE",
+// };
 
 export default function RootLayout({
   children,
@@ -18,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <Provider store={store}>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </Provider>
       </body>
     </html>
   );
