@@ -12,5 +12,5 @@ export default function ProductDetailsPage() {
     throw new Error("Product ID invalid");
   }
 
-  return <ProductDetails status={null} productId={productId} />;
+  return <ProductDetails productId={productId} />;
 }

@@ -126,7 +126,6 @@ export default function EditProduct({ productId, status }: EditProductProps) {
       }
     } catch (error) {
       console.error("Error updating product:", error);
-      // Handle error state if needed
     }
   };
 

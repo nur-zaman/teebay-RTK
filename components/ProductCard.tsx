@@ -1,10 +1,9 @@
 import { Trash2 } from "lucide-react";
 import Link from "next/link";
-import { Product } from "@/types/productType";
-import { deleteProduct } from "@/utils/products";
-import { useQueryClient } from "@tanstack/react-query";
+import { Category, Product } from "@/types/productType";
 import { ConfirmAlert } from "./ConfirmAlert";
 import { useRouter } from "next/navigation";
+import { useDeleteProductMutation } from "@/apiSlice";
 
 export default function ProductCard({
   product,
@@ -17,41 +16,17 @@ export default function ProductCard({
   hideDeleteButton?: boolean;
   onclickURL: string;
 }) {
-  const { id, title, categories, price, rent, description, createdAt, rate } =
-    product;
-  const queryClient = useQueryClient();
+  const { id, title, price, rent, description, createdAt, rate } = product;
+  const categories = product.categories as Category[];
+
+  const [deleteProduct] = useDeleteProductMutation();
   const router = useRouter();
   const handleDelete = async () => {
     try {
-      // Optimistic update
-      queryClient.setQueryData<Product[] | undefined>(
-        ["products", product.userId, status, undefined, undefined],
-        (products) => products?.filter((p) => p.id !== id)
-      );
-      if (!id) throw new Error("Id is required");
-      const response = await deleteProduct(id);
-      if (response.ok) {
-        console.log("Product deleted successfully");
-      } else {
-        const error = await response.json();
-        // eslint-disable-next-line no-console
-        console.error("Error deleting product:", error);
-
-        // Revert the optimistic update
-        queryClient.setQueryData<Product[] | undefined>(
-          ["products", product.userId, status],
-          (products) => (products ? [...products, product] : [product])
-        );
-      }
+      await deleteProduct(id);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error("Error deleting product:", error);
-
-      // Revert the optimistic update
-      queryClient.setQueryData<Product[] | undefined>(
-        ["products", product.userId, status],
-        (products) => (products ? [...products, product] : [product])
-      );
     }
   };
 
@@ -60,7 +35,8 @@ export default function ProductCard({
       <div className="flex justify-between items-start">
         <div
           onClick={() => {
-            router.push(`/${onclickURL}${product.id}`);
+            console.log(`/${onclickURL}${id}`);
+            router.push(`/${onclickURL}${id}`);
           }}
           className="hover:cursor-pointer"
         >

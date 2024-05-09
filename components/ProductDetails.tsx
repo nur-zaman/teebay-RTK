@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "@/types/productType";
+import { Category, Product } from "@/types/productType";
 import { redirect, useRouter } from "next/navigation";
 import React from "react";
 import { ConfirmAlert } from "./ConfirmAlert";
@@ -25,16 +25,7 @@ export default function ProductDetails({ productId, status }: Props) {
   const router = useRouter();
 
   // Use RTK Query to fetch all products
-  const {
-    data: products,
-    isLoading,
-    error,
-  } = useGetProductsQuery({
-    userId: undefined,
-    status: null,
-    exceptUserId: undefined,
-    exceptStatus: undefined,
-  });
+  const { data: products, isLoading, error } = useGetProductsQuery({});
 
   const product: Product | undefined = products?.find(
     (p: Product) => p.id === productId
@@ -77,8 +68,9 @@ export default function ProductDetails({ productId, status }: Props) {
     }
 
     try {
+      console.log({ userId, productId, startDate, endDate });
       await rentProduct({ userId, productId, startDate, endDate });
-      // RTK Query will automatically refetch and update the 'getProducts' query
+
       router.push("/all-products");
     } catch (error) {
       console.error("Error in handleBuy:", error);
@@ -91,7 +83,11 @@ export default function ProductDetails({ productId, status }: Props) {
       <h2 className="text-2xl font-bold mb-4">{product.title}</h2>
       <p className="text-gray-600 mb-2">
         Categories:{" "}
-        {product.categories.map((category) => category.name).join(", ")}
+        {product.categories
+          .map((category) =>
+            typeof category === "string" ? category : category.name
+          )
+          .join(", ")}
       </p>
       <p className="text-gray-600 mb-4">
         Price: ${product.price} | Rent: ${product.rent} per{" "}

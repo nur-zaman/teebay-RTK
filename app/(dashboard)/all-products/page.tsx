@@ -8,7 +8,7 @@ export default function AllProductsPage() {
 
       <div className="flex flex-col gap-4 w-full justify-center items-center">
         <ProductList
-          status={null}
+          // status={null}
           onclickURL="product-details?productId="
           hideDeleteButton={true}
         />
