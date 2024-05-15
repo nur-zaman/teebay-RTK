@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { useLoginMutation } from "@/apiSlice"; // Import RTK Query hook
+import { useLoginMutation } from "@/apiSlice";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),

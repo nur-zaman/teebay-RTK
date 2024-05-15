@@ -1,9 +1,7 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import ProductCard from "./ProductCard";
 import { Product } from "@/types/productType";
-import { getProducts } from "@/utils/products";
 
 import { useGetProductsQuery } from "@/apiSlice";
 
@@ -49,12 +47,6 @@ export default function ProductList({
   exceptStatus,
   hideDeleteButton,
 }: productListProps) {
-  // const productQuery = useQuery<Product[]>({
-  //   queryKey: ["products", userId, status, exceptUserId, exceptStatus],
-  //   queryFn: () => getProducts(userId, status, exceptUserId, exceptStatus),
-  // });
-  // const { data: products, isLoading, error } = productQuery;
-
   const {
     data: products,
     isLoading,

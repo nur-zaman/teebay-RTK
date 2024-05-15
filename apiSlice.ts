@@ -1,7 +1,7 @@
 "use client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseURL = "http://localhost:3456/api"; // Base URL for API calls
+const baseURL = "http://localhost:3456/api";
 
 export const apiSlice = createApi({
   reducerPath: "api",
@@ -10,16 +10,15 @@ export const apiSlice = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (filterProductDto) => ({
-        // Use filterProductDto for filtering
         url: `/product`,
         method: "GET",
-        params: filterProductDto, // Pass filterProductDto as query parameters
+        params: filterProductDto,
       }),
       providesTags: ["Products"],
     }),
     deleteProduct: builder.mutation({
       query: (productId) => ({
-        url: `/product/${productId}`, // Use productId in the URL path
+        url: `/product/${productId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Products"],
@@ -34,7 +33,6 @@ export const apiSlice = createApi({
     }),
     updateProduct: builder.mutation({
       query: ({ id, ...patch }) => ({
-        // Use id in the URL path, and separate patch data
         url: `/product/${id}`,
         method: "PATCH",
         body: patch,
