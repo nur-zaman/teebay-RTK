@@ -24,7 +24,7 @@ export default function ProductDetails({ productId, status }: Props) {
 
   const router = useRouter();
 
-  // Use RTK Query to fetch all products
+ 
   const { data: products, isLoading, error } = useGetProductsQuery({});
 
   const product: Product | undefined = products?.find(
@@ -52,12 +52,11 @@ export default function ProductDetails({ productId, status }: Props) {
 
     try {
       await buyProduct({ userId, productId });
-      // RTK Query will automatically refetch and update the 'getProducts' query
-      // based on the invalidatesTags setting in apiSlice.js
+
       router.push("/all-products");
     } catch (error) {
       console.error("Error in handleBuy:", error);
-      // Additional error handling if needed
+      
     }
   };
 
@@ -74,7 +73,7 @@ export default function ProductDetails({ productId, status }: Props) {
       router.push("/all-products");
     } catch (error) {
       console.error("Error in handleBuy:", error);
-      // Additional error handling if needed
+      
     }
   };
 

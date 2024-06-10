@@ -29,19 +29,18 @@ type ValidationSchema = z.infer<typeof loginSchema>;
 export function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState<string | undefined>();
+  const [login] = useLoginMutation();
 
-  // Use RTK Query login mutation
-  const [login, { isLoading }] = useLoginMutation();
+  // const [login, { isLoading }] = useLoginMutation();
 
   const onSubmitHandler = async (values: ValidationSchema) => {
     try {
-      const response = await login(values).unwrap(); // Call the mutation and unwrap the result
-      // Handle successful login (e.g., store user data, redirect)
-
-      localStorage.setItem("userId", response.id); // Assuming the response contains userId
+      const response = await login(values).unwrap(); 
+      
+      localStorage.setItem("userId", response.id);
       router.push("/my-products");
     } catch (err) {
-      // Handle login error
+   
       setError(err.message);
     }
   };

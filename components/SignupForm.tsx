@@ -18,7 +18,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { signup } from "@/utils/auth";
+// import { signup } from "@/utils/auth";
+import { useSignupMutation } from "@/apiSlice";
 
 const signupSchema = z
   .object({
@@ -40,6 +41,9 @@ const signupSchema = z
 type ValidationSchema = z.infer<typeof signupSchema>;
 
 export function SignupForm() {
+
+  const [signUp] = useSignupMutation();
+
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -48,14 +52,14 @@ export function SignupForm() {
 
   const onSubmitHandler = async (values: ValidationSchema) => {
     try {
-      const response = await signup(values);
+      const response = await signUp(values);
 
-      if (response.ok) {
+      if (response) {
         console.log("Signup successful!");
         router.push("/");
       } else {
-        const errorData = await response.json();
-        setError(errorData.message || "An error occurred during signup.");
+        const errorData = await response;
+        setError( "An error occurred during signup.");
       }
     } catch (error) {
       console.error("Error signing up:", error);
