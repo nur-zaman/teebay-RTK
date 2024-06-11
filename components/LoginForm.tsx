@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
-import { useLoginMutation } from "@/apiSlice";
+import { useLoginMutation } from "@/shared/redux/rtk-apis/user/user.api";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),

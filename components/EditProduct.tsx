@@ -18,7 +18,7 @@ import { Button } from "./ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { redirect, useRouter } from "next/navigation";
 // import { updateProduct } from "@/utils/products";
-import { useUpdateProductMutation, useGetProductsQuery } from "@/apiSlice";
+import { useUpdateProductMutation, useGetProductsQuery } from "@/shared/redux/rtk-apis/products/products.api";
 
 interface EditProductProps {
   productId: string | null;

@@ -7,7 +7,7 @@ import { createProduct } from "@/utils/products";
 import { redirect, useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { Product as ProductDTO } from "@/types/productType";
-import { useCreateProductMutation } from "@/apiSlice";
+import { useCreateProductMutation } from "@/shared/redux/rtk-apis/products/products.api";
 
 export default function ProductSummary() {
   const userId = localStorage.getItem("userId");

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Category, Product } from "@/types/productType";
 import { ConfirmAlert } from "./ConfirmAlert";
 import { useRouter } from "next/navigation";
-import { useDeleteProductMutation } from "@/apiSlice";
+import { useDeleteProductMutation } from "@/shared/redux/rtk-apis/products/products.api";
 
 export default function ProductCard({
   product,

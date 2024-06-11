@@ -3,7 +3,7 @@
 import ProductCard from "./ProductCard";
 import { Product } from "@/types/productType";
 
-import { useGetProductsQuery } from "@/apiSlice";
+import { useGetProductsQuery } from "@/shared/redux/rtk-apis/products/products.api";
 
 type productListProps = {
   userId?: string;

@@ -8,7 +8,7 @@ import {
   useBuyProductMutation,
   useRentProductMutation,
   useGetProductsQuery,
-} from "@/apiSlice";
+} from "@/shared/redux/rtk-apis/products/products.api"
 import { ProductRentMenu } from "./ProductRentMenu";
 
 type Props = { productId: string; status?: string | null };

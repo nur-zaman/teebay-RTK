@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 // import { signup } from "@/utils/auth";
-import { useSignupMutation } from "@/apiSlice";
+import { useSignupMutation } from "@/shared/redux/rtk-apis/user/user.api";
 
 const signupSchema = z
   .object({
