@@ -6,7 +6,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
-import useStore from "@/store/useStore";
+import useStore from "@/zustand-store/useStore";
 import Container from "./Container";
 import DescriptionFormField from "../form-fields/description";
 

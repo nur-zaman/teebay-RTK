@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import useStore from "@/store/useStore";
+import useStore from "@/zustand-store/useStore";
 import Container from "./Container";
 import { createProduct } from "@/utils/products";
 import { redirect, useRouter } from "next/navigation";

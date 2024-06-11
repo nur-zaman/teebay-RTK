@@ -3,7 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import useStore from "@/store/useStore";
+import useStore from "@/zustand-store/useStore";
 
 type TFooter = {
   className?: string;

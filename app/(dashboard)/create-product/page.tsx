@@ -4,7 +4,7 @@ import ProductDescription from "@/components/productCreationForm/ProductDescript
 import ProductPriceInfo from "@/components/productCreationForm/ProductPriceInfo";
 import ProductSummary from "@/components/productCreationForm/ProductSummary";
 import ProductTitle from "@/components/productCreationForm/ProductTitle";
-import useStore from "@/store/useStore";
+import useStore from "@/zustand-store/useStore";
 
 export default function CreateProductPage() {
   const { step } = useStore((state) => state);

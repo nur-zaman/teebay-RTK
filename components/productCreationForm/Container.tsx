@@ -1,6 +1,6 @@
 
 import React from "react";
-import useStore from "@/store/useStore";
+import useStore from "@/zustand-store/useStore";
 import NavigationButtons from "./NavigationButtons";
 import { cn } from "@/lib/utils";
 
